@@ -1,0 +1,8 @@
+### RPi Temp and Humidity Windows App RTHWA 0.1
+### Created by Mariusz Laszewski
+
+import Tkinter
+from Tkinter import *
+root = TK()
+frame = Frame(root)
+frame.pack()
