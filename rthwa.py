@@ -1,5 +1,12 @@
 ### RPi Temp and Humidity Windows App RTHWA 0.1
 ### Created by Mariusz Laszewski
+#
+# Python 3.4.required 
+#
+# mysql-connector need to be instaled
+# Download page http://dev.mysql.com/downloads/file.php?id=457172
+# 
+#
 
 from tkinter import *
 import sys
