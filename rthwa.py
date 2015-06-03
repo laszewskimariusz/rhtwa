@@ -13,7 +13,7 @@ Root.wm_iconbitmap("n.ico")
 
 ### Mysql login
 
-cur = mysql.connector.connect(user="mariusz", password="shinigami", host ="192.168.0.12", database="dht")
+cur = mysql.connector.connect(user="mariusz", password="somne_password", host ="192.168.0.12", database="dht")
 cursor = cur.cursor()
 
 
