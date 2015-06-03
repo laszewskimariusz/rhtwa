@@ -12,7 +12,7 @@ from tkinter import *
 import sys
 import mysql.connector
 import configparser
-
+from subprocess import call
 
 config = configparser.ConfigParser()
 Root = Tk()
@@ -32,7 +32,6 @@ def about():
    label = Label(filewin, text="RPi Temp and Humidity Windows App RTHWA 0.1" '\n' "Created by Mariusz Laszewski" '\n' "mariuszlaszewski@gmail.com")
    label.pack()
 def editconf():
-    from subprocess import call
     call("notepad config.ini")
     
 
@@ -65,37 +64,48 @@ mysqldata = config.get('MYSQL CONFIG', 'Database')
 
 
 ### Mysql login
+try:
+    cur = mysql.connector.connect(user = (mysqluser) , password = (mysqlpass), host = (mysqlhost), database = (mysqldata))
 
-cur = mysql.connector.connect(user = (mysqluser) , password = (mysqlpass), host = (mysqlhost), database = (mysqldata))
-
-cursor = cur.cursor()
-
-
-cursor.execute( "SELECT * FROM temp ORDER BY id DESC LIMIT 0 , 1" )
+    cursor = cur.cursor()
 
 
+    cursor.execute( "SELECT * FROM temp ORDER BY id DESC LIMIT 0 , 1" )
 
-data = cursor.fetchall()
-for row in data:
-    print (row[3], row[4], row[2]) # counting Row from 0
-cursor.close()
+
+
+    data = cursor.fetchall()
+    for row in data:
+    #   print (row[3], row[4], row[2]) # counting Row from 0
+
+        cursor.close()
+
+except mysql.connector.Error as err:
+    Label(Root, text=("something went wrong while i try use config file"'\n'"please press below button, and edit"'\n'"config.ini file"),fg="red", bg="black", font="system 10").pack()
+    
+
+# button section
+confbutton = Button(Root, text=("edit config.ini"), command = editconf).pack()
+confbutton.grid(row=6, column=0)
+    
+temp = row[4] 
+hum = row[3] 
+tt = row[2] 
+
 
 
 
 ## Label section 
 
 Label(Root, text=("Temperature:"), font="Times 40").pack()
-Label(Root, text=(row[4]),fg = "red", bg = "blue", font="Times 40").pack()
+Label(Root, text=(temp),fg = "red", bg = "blue", font="Times 40").pack()
      
 Label(Root, text=("Humidity"), font="Times 40").pack()
-Label(Root, text=(row[3]),fg = "red", bg = "blue", font="Times 40").pack()
+Label(Root, text=(hum),fg = "red", bg = "blue", font="Times 40").pack()
 
 Label(Root, text=("Last update"), font="Times 10").pack()
-Label(Root, text=(row[2]),fg = "red", bg = "blue", font="Times 10").pack()
+Label(Root, text=(tt),fg = "red", bg = "blue", font="Times 10").pack()
 
 
 #####################
 Root.mainloop()
-
-
-
