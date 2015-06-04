@@ -10,6 +10,7 @@
 
 from tkinter import *
 import sys
+import os
 import mysql.connector
 import configparser
 from subprocess import call
@@ -34,7 +35,9 @@ def about():
 def editconf():
     call("notepad config.ini")
     
-
+def restart():
+   python = sys.executable
+   os.execl(python, python, * sys.argv)
 ### menubar section
 
 filemenu = Menu(menubar, tearoff=0)
@@ -81,12 +84,13 @@ try:
         cursor.close()
 
 except mysql.connector.Error as err:
-    Label(Root, text=("something went wrong while i try use config file"'\n'"please press below button, and edit"'\n'"config.ini file"),fg="red", bg="black", font="system 10").pack()
-    
-
+    Label(Root, text=("something went wrong while i try use config file"'\n'"please press below button, and edit"'\n'"config.ini file"'\n''\n'"press RESTART if is done"),fg="red", bg="black", font="system 10").pack()
+    confbutton = Button(Root, text=("edit config.ini"), command = editconf).pack()
+    confbutton = Button(Root, text=("RESTART"), command = restart).pack()
+    Root.mainloop()
 # button section
-confbutton = Button(Root, text=("edit config.ini"), command = editconf).pack()
-confbutton.grid(row=6, column=0)
+
+
     
 temp = row[4] 
 hum = row[3] 
